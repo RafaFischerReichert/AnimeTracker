@@ -1,5 +1,6 @@
 # AnimeTracker
 Trabalho POO III 2022
+Desenvolvido em Ionic + Angular.js
 
 Software para armazenar e manter uma coleção de Animes e progresso de um usuário
 
