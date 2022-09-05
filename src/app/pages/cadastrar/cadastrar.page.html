@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Cadastrar Anime (Preview)</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-label id="cabecalho">Cadastro de Animes</ion-label>
+  <ion-list>
+    <form [formGroup]="form_cadastrar" (ngSubmit)="submitForm()">
+      <ion-item>
+        <ion-input placeholder="Título" formControlName="titulo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Ano de Lançamento</ion-label>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime
+              displayFormat="YYYY"
+              formControlName="ano"
+              id="datetime"
+              presentation="year"
+              max="{{data}}"
+            >
+            </ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+
+      <ion-item>
+        <ion-select placeholder="Gênero Principal" formControlName="genero">
+          <ion-select-option value="Shounen">Shounen</ion-select-option>
+          <ion-select-option value="Shoujo">Shoujo</ion-select-option>
+          <ion-select-option value="Seinen">Seinen</ion-select-option>
+          <ion-select-option value="Josei">Josei</ion-select-option>
+          <ion-select-option value="Ecchi">Ecchi</ion-select-option>
+          <ion-select-option value="Harem">Harem</ion-select-option>
+          <ion-select-option value="Isekai">Isekai</ion-select-option>
+          <ion-select-option value="Mecha">Mecha</ion-select-option>
+          <ion-select-option value="Slice of Life">Slice of Life</ion-select-option>
+          <ion-select-option value="Kodomomuke">Kodomomuke</ion-select-option>
+          <ion-select-option value="Iyashikei">Iyashikei</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select placeholder="Material de Origem" formControlName="origem">
+          <ion-select-option value="Mangá">Mangá</ion-select-option>
+          <ion-select-option value="Light Novel">Light Novel</ion-select-option>
+          <ion-select-option value="Visual Novel">Visual Novel</ion-select-option>
+          <ion-select-option value="Jogo">Jogo</ion-select-option>
+          <ion-select-option value="Original">Original</ion-select-option>
+          <ion-select-option value="Outros">Outros</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-input placeholder="Studio" formControlName="studio"></ion-input>
+      </ion-item>
+
+    </form>
+  </ion-list>
+</ion-content>
