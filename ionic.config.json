@@ -1,0 +1,7 @@
+{
+  "name": "AnimeTracker",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
