@@ -28,7 +28,10 @@ export class CadastrarPage implements OnInit {
       ano: ["", [Validators.required]],
       genero: ["", [Validators.required]],
       origem: ["", [Validators.required]],
-      studio: ["", [Validators.required]]
+      studio: ["", [Validators.required]],
+      watched: ["", [Validators.required]],
+      total: ["", [Validators.required]],
+      rating: ["", [Validators.required]],
     });
   }
 
