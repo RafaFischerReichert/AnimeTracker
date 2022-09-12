@@ -8,8 +8,6 @@ export class AnimeEntryService {
   private _entries: AnimeEntry[] = [];
 
   constructor() {
-    let entry = new AnimeEntry('Naruto', '1999', 'Shounen', 'Manga', 'Pierrot', 220, 220, 7);
-    this.insert(entry);
   }
 
   public get animeEntries(): AnimeEntry[] {
