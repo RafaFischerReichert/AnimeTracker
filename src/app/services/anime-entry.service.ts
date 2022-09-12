@@ -8,6 +8,8 @@ export class AnimeEntryService {
   private _entries: AnimeEntry[] = [];
 
   constructor() {
+    //let entry = new AnimeEntry("Naruto","1999","Shounen","Mangá","Pierrot",190,220,3);
+    //this.insert(entry);
   }
 
   public get animeEntries(): AnimeEntry[] {
@@ -15,7 +17,18 @@ export class AnimeEntryService {
   }
 
   public insert(entry: AnimeEntry) {
-    this._entries.push(entry);
+    let entrada = new AnimeEntry(
+      entry.titulo,
+      entry.ano,
+      entry.genero,
+      entry.origem,
+      entry.studio,
+      entry.watched,
+      entry.total,
+      entry.rating
+    );
+    console.log(entrada.id);
+    this._entries.push(entrada);
   }
 
   public editEntry(
@@ -28,15 +41,16 @@ export class AnimeEntryService {
     watched: number,
     rating: number
   ): boolean {
-    for (let i of this._entries) {
-      if (i.id == entry.id) {
-        i.titulo = titulo;
-        i.ano = ano;
-        i.genero = genero;
-        i.origem = origem;
-        i.studio = studio;
-        i.watched = watched;
-        i.rating = rating;
+    console.log(entry.id);
+    for (let i = 0; i < this._entries.length; i++) {
+      if (this._entries[i].id === entry.id) {
+        this._entries[i].titulo = titulo;
+        this._entries[i].ano = ano;
+        this._entries[i].genero = genero;
+        this._entries[i].origem = origem;
+        this._entries[i].studio = studio;
+        this._entries[i].watched = watched;
+        this._entries[i].rating = rating;
         return true;
       }
     }
@@ -44,8 +58,9 @@ export class AnimeEntryService {
   }
 
   public deleteEntry(entry: AnimeEntry): boolean {
+    console.log(entry.id);
     for (let i = 0; i < this._entries.length; i++) {
-      if (this._entries[i].id == entry.id) {
+      if (this._entries[i].id === entry.id) {
         this._entries.splice(i, 1);
         return true;
       }

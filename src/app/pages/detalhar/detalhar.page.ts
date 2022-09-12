@@ -29,7 +29,9 @@ export class DetalharPage implements OnInit {
 
   ngOnInit() {
     const nav = this.router.getCurrentNavigation();
+    
     this.animeEntry = nav.extras.state.objeto;
+    console.log(this.animeEntry);
     this.titulo = this.animeEntry.titulo;
     this.genero = this.animeEntry.genero;
     this.origem = this.animeEntry.origem;

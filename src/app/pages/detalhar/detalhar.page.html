@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Detalhar Anime (Preview)</ion-title>
+    <ion-title>Detalhar Anime</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,12 +16,13 @@
           clearInput
           placeholder="Título"
           [(ngModel)]="titulo"
+          disabled="{{edicao}}"
         ></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Ano de Lançamento</ion-label>
-        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-datetime-button datetime="datetime" disabled="{{edicao}}"></ion-datetime-button>
 
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
@@ -30,7 +31,6 @@
               [(ngModel)]="ano"
               id="datetime"
               presentation="year"
-              max="{{data}}"
             >
             </ion-datetime>
           </ng-template>
@@ -38,7 +38,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-select placeholder="Gênero Principal" [(ngModel)]="genero">
+        <ion-select placeholder="Gênero Principal" [(ngModel)]="genero" disabled="{{edicao}}">
           <ion-select-option value="Shounen">Shounen</ion-select-option>
           <ion-select-option value="Shoujo">Shoujo</ion-select-option>
           <ion-select-option value="Seinen">Seinen</ion-select-option>
@@ -56,7 +56,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-select placeholder="Material de Origem" [(ngModel)]="origem">
+        <ion-select placeholder="Material de Origem" [(ngModel)]="origem" disabled="{{edicao}}">
           <ion-select-option value="Mangá">Mangá</ion-select-option>
           <ion-select-option value="Light Novel">Light Novel</ion-select-option>
           <ion-select-option value="Visual Novel"
@@ -73,6 +73,7 @@
           clearInput
           placeholder="Studio"
           [(ngModel)]="studio"
+          disabled="{{edicao}}"
         ></ion-input>
       </ion-item>
 
@@ -82,6 +83,7 @@
           placeholder="Quantia de Eps Assistidos"
           [(ngModel)]="watched"
           type="number"
+          disabled="{{edicao}}"
         ></ion-input>
       </ion-item>
 
@@ -91,6 +93,7 @@
           placeholder="Total de Episódios"
           [(ngModel)]="total"
           type="number"
+          disabled="{{edicao}}"
         ></ion-input>
       </ion-item>
 
@@ -103,6 +106,7 @@
           [max]="10"
           [pin]="true"
           [(ngModel)]="rating"
+          disabled="{{edicao}}"
         ></ion-range>
       </ion-item>
   </ion-list>
