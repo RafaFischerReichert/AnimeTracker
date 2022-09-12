@@ -29,10 +29,11 @@ export class DetalharPage implements OnInit {
 
   ngOnInit() {
     const nav = this.router.getCurrentNavigation();
-    
+
     this.animeEntry = nav.extras.state.objeto;
     console.log(this.animeEntry);
     this.titulo = this.animeEntry.titulo;
+    this.ano = this.animeEntry.ano;
     this.genero = this.animeEntry.genero;
     this.origem = this.animeEntry.origem;
     this.studio = this.animeEntry.studio;
@@ -40,7 +41,6 @@ export class DetalharPage implements OnInit {
     this.total = this.animeEntry.total;
     this.rating = this.animeEntry.rating;
     console.log(this.animeEntry);
-    
   }
 
   alterarEdicao(): void {
