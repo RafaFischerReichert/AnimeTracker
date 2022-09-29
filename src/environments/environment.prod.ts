@@ -2,8 +2,7 @@ export const environment = {
   production: true,
   firebaseConfig: {
     apiKey: "AIzaSyCb4kiVrwMZyEW26wXxyfu1_CMnE5zBjSc",
-    //authDomain: "animetracker-d72df.firebaseapp.com",
-    authDomain: "localhost",
+    authDomain: "animetracker-d72df.firebaseapp.com",
     projectId: "animetracker-d72df",
     storageBucket: "animetracker-d72df.appspot.com",
     messagingSenderId: "508029656581",
