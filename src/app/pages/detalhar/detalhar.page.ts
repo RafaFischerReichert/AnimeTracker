@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { AnimeEntry } from "src/app/models/anime-entry";
-import { AnimeEntryService } from "src/app/services/anime-entry.service";
+import { AnimeEntryFirebaseService } from "src/app/services/anime-entry-firebase.service";
 
 @Component({
   selector: "app-detalhar",
@@ -11,36 +12,49 @@ import { AnimeEntryService } from "src/app/services/anime-entry.service";
 })
 export class DetalharPage implements OnInit {
   animeEntry: AnimeEntry;
-  titulo: string;
-  ano: string;
-  genero: string;
-  origem: string;
-  studio: string;
-  watched: number;
-  total: number;
-  rating: number;
+  data: string;
   edicao: boolean;
+  form_cadastrar: FormGroup;
+  isSubmitted: boolean = false;
 
   constructor(
     private router: Router,
+    private entryFS: AnimeEntryFirebaseService,
     private alertController: AlertController,
-    private entryService: AnimeEntryService
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
+    this.data = new Date().toISOString();
     const nav = this.router.getCurrentNavigation();
-
     this.animeEntry = nav.extras.state.objeto;
-    console.log(this.animeEntry);
-    this.titulo = this.animeEntry.titulo;
-    this.ano = this.animeEntry.ano;
-    this.genero = this.animeEntry.genero;
-    this.origem = this.animeEntry.origem;
-    this.studio = this.animeEntry.studio;
-    this.watched = this.animeEntry.watched;
-    this.total = this.animeEntry.total;
-    this.rating = this.animeEntry.rating;
-    console.log(this.animeEntry);
+    this.form_cadastrar = this.formBuilder.group({
+      titulo: [this.animeEntry.titulo, [Validators.required]],
+      ano: [this.animeEntry.ano, [Validators.required]],
+      genero: [this.animeEntry.genero, [Validators.required]],
+      origem: [this.animeEntry.origem, [Validators.required]],
+      studio: [this.animeEntry.studio, [Validators.required]],
+      watched: [this.animeEntry.watched, [Validators.required]],
+      total: [this.animeEntry.total, [Validators.required]],
+      rating: [
+        this.animeEntry.rating,
+        [Validators.required, Validators.min(0), Validators.max(10)],
+      ],
+    });
+  }
+
+  get errorControl() {
+    return this.form_cadastrar.controls;
+  }
+
+  submitForm(): boolean {
+    this.isSubmitted = true;
+    if (!this.form_cadastrar.valid) {
+      this.presentAlert("Animes", "Erro", "Todos os campos são Obrigatórios!");
+      return false;
+    } else {
+      this.editar();
+    }
   }
 
   alterarEdicao(): void {
@@ -49,13 +63,6 @@ export class DetalharPage implements OnInit {
     } else {
       this.edicao = false;
     }
-  }
-
-  private validar(campo: any): boolean {
-    if (!campo) {
-      return false;
-    }
-    return true;
   }
 
   async presentAlert(header: string, subHeader: string, message: string) {
@@ -72,7 +79,8 @@ export class DetalharPage implements OnInit {
   async presentAlertConfirm(
     header: string,
     subHeader: string,
-    message: string
+    message: string,
+    acao: any
   ) {
     const alert = await this.alertController.create({
       header: header,
@@ -83,14 +91,16 @@ export class DetalharPage implements OnInit {
           text: "Cancelar",
           role: "cancelar",
           cssClass: "danger",
-          handler: () => {},
+          handler: () => {
+            console.log("Cancelou");
+          },
         },
         {
           text: "Confirmar",
           role: "confirm",
           cssClass: "success",
-          handler: () => {
-            this.excluirContato();
+          handler: (acao) => {
+            acao;
           },
         },
       ],
@@ -100,51 +110,37 @@ export class DetalharPage implements OnInit {
   }
 
   editar() {
-    if (
-      this.validar(this.titulo) &&
-      this.validar(this.ano) &&
-      this.validar(this.genero) &&
-      this.validar(this.origem) &&
-      this.validar(this.studio) &&
-      this.validar(this.watched) &&
-      this.validar(this.total)
-    ) {
-      if (
-        this.entryService.editEntry(
-          this.animeEntry,
-          this.titulo,
-          this.ano,
-          this.genero,
-          this.origem,
-          this.studio,
-          this.watched,
-          this.rating
-        )
-      ) {
-        this.presentAlert("Animes", "Sucesso", "Anime Editado!");
+    this.entryFS
+      .editarEntry(this.form_cadastrar.value, this.animeEntry.id)
+      .then(() => {
+        this.presentAlert("Animes", "Sucesso", "Edição Realizada.");
         this.router.navigate(["/home"]);
-      } else {
-        this.presentAlert("Animes", "Erro", "Anime não encontrado!");
-      }
-    } else {
-      this.presentAlert("Animes", "Erro", "Todos os campos são Obrigatórios!");
-    }
+      })
+      .catch((error) => {
+        this.presentAlert("Animes", "Erro", "Erro ao Atualizar Entrada.");
+        this.router.navigate(["/home"]);
+      });
   }
 
   excluir(): void {
     this.presentAlertConfirm(
       "Animes",
       "Excluir Entrada",
-      "Deseja mesmo excluir essa entrada?"
+      "Deseja mesmo excluir essa entrada?",
+      this.excluirEntrada()
     );
   }
 
-  private excluirContato(): void {
-    if (this.entryService.deleteEntry(this.animeEntry)) {
-      this.presentAlert("Animes", "Sucesso", "Anime Excluído!");
-      this.router.navigate(["/home"]);
-    } else {
-      this.presentAlert("Animes", "Erro", "Anime não encontrado!");
-    }
+  private excluirEntrada() {
+    this.entryFS
+      .excluirEntry(this.animeEntry)
+      .then(() => {
+        this.presentAlert("Animes", "Sucesso", "Entrada Excluída.");
+        this.router.navigate(["/home"]);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.presentAlert("Animes", "Erro", "Entrada Não Encontrada.");
+      });
   }
 }

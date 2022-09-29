@@ -19,8 +19,6 @@ export class AnimeEntry {
     total: number,
     rating: number
   ) {
-    let chave = new Date();
-    this._id = chave.getTime().toString();
     this._titulo = titulo;
     this._ano = ano;
     this._genero = genero;

@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { AlertController } from "@ionic/angular";
+import { AlertController, LoadingController } from "@ionic/angular";
+import { AnimeEntryFirebaseService } from "src/app/services/anime-entry-firebase.service";
 import { AnimeEntryService } from "src/app/services/anime-entry.service";
 
 @Component({
@@ -16,7 +17,9 @@ export class CadastrarPage implements OnInit {
 
   constructor(
     private alertController: AlertController,
+    private loadingCtrl: LoadingController,
     private router: Router,
+    private entryFS: AnimeEntryFirebaseService,
     private entryService: AnimeEntryService,
     private formBuilder: FormBuilder
   ) {}
@@ -31,7 +34,10 @@ export class CadastrarPage implements OnInit {
       studio: ["", [Validators.required]],
       watched: ["", [Validators.required]],
       total: ["", [Validators.required]],
-      rating: ["", [Validators.required]],
+      rating: [
+        "",
+        [Validators.required, Validators.min(0), Validators.max(10)],
+      ],
     });
   }
 
@@ -55,9 +61,19 @@ export class CadastrarPage implements OnInit {
   }
 
   private cadastrar(): void {
-    this.entryService.insert(this.form_cadastrar.value);
-    this.presentAlert("Cadastro", "Sucesso", "Anime Cadastrado!");
-    this.router.navigate(["/home"]);
+    this.showLoading("Aguarde...", 10000);
+    this.entryFS
+      .inserirEntry(this.form_cadastrar.value)
+      .then(() => {
+        this.loadingCtrl.dismiss();
+        this.presentAlert("Animes", "Sucesso", "Anime Cadastrado.");
+        this.router.navigate(["/home"]);
+      })
+      .catch((error) => {
+        this.loadingCtrl.dismiss();
+        this.presentAlert("Animes", "Erro", "Erro ao Realizar Cadastro.");
+        console.log(error);
+      });
   }
 
   async presentAlert(header: string, subHeader: string, message: string) {
@@ -69,5 +85,13 @@ export class CadastrarPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async showLoading(mensagem: string, duracao: number) {
+    const loading = await this.loadingCtrl.create({
+      message: mensagem,
+      duration: duracao,
+    });
+    loading.present();
   }
 }
