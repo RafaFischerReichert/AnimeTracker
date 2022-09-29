@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AlertController, LoadingController } from "@ionic/angular";
 import { AnimeEntryFirebaseService } from "src/app/services/anime-entry-firebase.service";
-import { AnimeEntryService } from "src/app/services/anime-entry.service";
 
 @Component({
   selector: "app-cadastrar",
@@ -21,7 +20,6 @@ export class CadastrarPage implements OnInit {
     private loadingCtrl: LoadingController,
     private router: Router,
     private entryFS: AnimeEntryFirebaseService,
-    private entryService: AnimeEntryService,
     private formBuilder: FormBuilder
   ) {}
 

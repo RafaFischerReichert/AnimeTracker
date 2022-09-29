@@ -32,7 +32,7 @@ export class AnimeEntryFirebaseService {
       watched: entry.watched,
       total: entry.total,
       rating: entry.rating,
-      donwloadURL: entry.downloadURL
+      donwloadURL: entry.downloadURL,
     });
   }
 
@@ -57,9 +57,8 @@ export class AnimeEntryFirebaseService {
     const file = imagem.item(0);
     if (file.type.split("/")[0] !== "image") {
       console.error("Tipo Não Suportado!");
-      return;
     }
-    const path = `images/${new Date().getTime()}_${file.name}`;
+    const path = `images/$(new Date().getTime())_$(file.name)`;
     const fileRef = this.angularFireStorage.ref(path);
     let task = this.angularFireStorage.upload(path, file);
     task
