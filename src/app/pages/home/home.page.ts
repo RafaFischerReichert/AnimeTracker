@@ -10,6 +10,7 @@ import { AnimeEntryFirebaseService } from "src/app/services/anime-entry-firebase
 })
 export class HomePage implements OnInit {
   animeEntries: AnimeEntry[];
+
   constructor(
     private router: Router,
     private entryFS: AnimeEntryFirebaseService
@@ -17,7 +18,9 @@ export class HomePage implements OnInit {
     this.carregarEntries();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
   carregarEntries() {
     this.entryFS.getEntries().subscribe((res) => {

@@ -12,10 +12,10 @@
 
   <ion-label id="cabecalho">Atualizando Cadastro</ion-label>
 
-  <ion-item> <img src="{{entry.downloadURL}}" /> </ion-item>
+  <ion-item> <img src="{{animeEntry.downloadURL}}" /> </ion-item>
 
   <ion-list>
-    <form [FormGroup]="form_cadastrar" (ngSubmit)="submitForm()">
+    <form [formGroup]="form_cadastrar" (ngSubmit)="submitForm()">
       <ion-item>
         <ion-input
           clearInput

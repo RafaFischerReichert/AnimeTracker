@@ -28,6 +28,7 @@ export class DetalharPage implements OnInit {
     this.data = new Date().toISOString();
     const nav = this.router.getCurrentNavigation();
     this.animeEntry = nav.extras.state.objeto;
+    console.log(this.animeEntry);
     this.form_cadastrar = this.formBuilder.group({
       titulo: [this.animeEntry.titulo, [Validators.required]],
       ano: [this.animeEntry.ano, [Validators.required]],
@@ -65,32 +66,35 @@ export class DetalharPage implements OnInit {
     }
   }
 
-  async presentAlert(header: string, subHeader: string, message: string) {
+  async presentAlert(
+    cabecalho: string,
+    subcabecalho: string,
+    mensagem: string
+  ) {
     const alert = await this.alertController.create({
-      header: header,
-      subHeader: subHeader,
-      message: message,
+      header: cabecalho,
+      subHeader: subcabecalho,
+      message: mensagem,
       buttons: ["OK"],
     });
-
     await alert.present();
   }
 
   async presentAlertConfirm(
-    header: string,
-    subHeader: string,
-    message: string,
+    cabecalho: string,
+    subcabecalho: string,
+    mensagem: string,
     acao: any
   ) {
     const alert = await this.alertController.create({
-      header: header,
-      subHeader: subHeader,
-      message: message,
+      header: cabecalho,
+      subHeader: subcabecalho,
+      message: mensagem,
       buttons: [
         {
           text: "Cancelar",
           role: "cancelar",
-          cssClass: "danger",
+          cssClass: "secondary",
           handler: () => {
             console.log("Cancelou");
           },
@@ -98,14 +102,12 @@ export class DetalharPage implements OnInit {
         {
           text: "Confirmar",
           role: "confirm",
-          cssClass: "success",
           handler: (acao) => {
             acao;
           },
         },
       ],
     });
-
     await alert.present();
   }
 

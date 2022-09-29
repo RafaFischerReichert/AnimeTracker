@@ -8,7 +8,7 @@ import { AnimeEntry } from "../models/anime-entry";
   providedIn: "root",
 })
 export class AnimeEntryFirebaseService {
-  private PATH: string = "entry";
+  private PATH: string = "entries";
   constructor(
     private angularFirestore: AngularFirestore,
     private angularFireStorage: AngularFireStorage
@@ -32,7 +32,7 @@ export class AnimeEntryFirebaseService {
       watched: entry.watched,
       total: entry.total,
       rating: entry.rating,
-      donwloadURL: entry.downloadURL,
+      downloadURL: entry.downloadURL,
     });
   }
 
@@ -55,16 +55,17 @@ export class AnimeEntryFirebaseService {
 
   enviarImagem(imagem: any, entry: AnimeEntry) {
     const file = imagem.item(0);
-    if (file.type.split("/")[0] !== "image") {
-      console.error("Tipo Não Suportado!");
+    if (file.type.split("/")[0] != "image") {
+      console.error("Tipo não suportado.");
     }
-    const path = `images/$(new Date().getTime())_$(file.name)`;
+    const path = "images/" + new Date().getTime().toString() + "_" + file.name.toString();
     const fileRef = this.angularFireStorage.ref(path);
     let task = this.angularFireStorage.upload(path, file);
     task
       .snapshotChanges()
       .pipe(
         finalize(() => {
+          console.log(fileRef);
           let uploadedFileURL = fileRef.getDownloadURL();
           uploadedFileURL.subscribe((resp) => {
             entry.downloadURL = resp;

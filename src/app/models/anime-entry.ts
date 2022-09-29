@@ -166,21 +166,11 @@ export class AnimeEntry {
     this._total = value;
   }
 
+  public get downloadURL(): any {
+    return this._downloadURL;
+  }
 
-    /**
-     * Getter downloadURL
-     * @return {any}
-     */
-	public get downloadURL(): any {
-		return this._downloadURL;
-	}
-
-    /**
-     * Setter downloadURL
-     * @param {any} value
-     */
-	public set downloadURL(value: any) {
-		this._downloadURL = value;
-	}
-
+  public set downloadURL(value: any) {
+    this._downloadURL = value;
+  }
 }
