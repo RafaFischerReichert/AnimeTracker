@@ -14,6 +14,7 @@ export class CadastrarPage implements OnInit {
   data: string;
   form_cadastrar: FormGroup;
   isSubmitted: boolean = false;
+  imagem: any;
 
   constructor(
     private alertController: AlertController,
@@ -38,11 +39,16 @@ export class CadastrarPage implements OnInit {
         "",
         [Validators.required, Validators.min(0), Validators.max(10)],
       ],
+      imagem: ["", [Validators.required]],
     });
   }
 
   get errorControl() {
     return this.form_cadastrar.controls;
+  }
+
+  uploadFile(imagem: any) {
+    this.imagem = imagem.files;
   }
 
   submitForm() {
@@ -63,7 +69,7 @@ export class CadastrarPage implements OnInit {
   private cadastrar(): void {
     this.showLoading("Aguarde...", 10000);
     this.entryFS
-      .inserirEntry(this.form_cadastrar.value)
+      .enviarImagem(this.imagem, this.form_cadastrar.value)
       .then(() => {
         this.loadingCtrl.dismiss();
         this.presentAlert("Animes", "Sucesso", "Anime Cadastrado.");

@@ -8,12 +8,15 @@
   <ion-list>
     <ion-item-sliding *ngFor="let entry of animeEntries">
       <ion-item>
+        <ion-avatar>
+          <img src="{{item.downloadURL}}" />
+        </ion-avatar>
+
         <ion-label
           >{{entry.titulo}} <br />
           {{entry.watched}}/{{entry.total}} Episódios Assistidos <br />
           Rating: {{entry.rating}}/10
-          </ion-label
-        >
+        </ion-label>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="irParaDetalhar(entry)">

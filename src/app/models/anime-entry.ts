@@ -8,6 +8,7 @@ export class AnimeEntry {
   private _watched: number;
   private _total: number;
   private _rating: number;
+  private _downloadURL: any;
 
   constructor(
     titulo: string,
@@ -164,4 +165,22 @@ export class AnimeEntry {
   public set total(value: number) {
     this._total = value;
   }
+
+
+    /**
+     * Getter downloadURL
+     * @return {any}
+     */
+	public get downloadURL(): any {
+		return this._downloadURL;
+	}
+
+    /**
+     * Setter downloadURL
+     * @param {any} value
+     */
+	public set downloadURL(value: any) {
+		this._downloadURL = value;
+	}
+
 }
